@@ -1,13 +1,37 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 export const Timer = () => {
-    let D = new Date;
 
+    const [sec, updateSec] = useState(0)
+    const [stop, setStop] = useState(true)
+    const [interval, updateInterval] = useState()
+
+    const start = (val) => {
+        if (val) {
+            console.log(val, "start / val = true")
+            let temp = sec
+            updateInterval(setInterval(() => {
+                temp = ++temp
+                updateSec(temp)
+            }, 100)
+            )
+        } else {
+            console.log(val, "start / val = false")
+            clearInterval(interval)
+            setStop(false)
+            setStop(null)
+            console.log(interval, "interval in else")
+
+
+        }
+    }
 
     return (
         <div>
-        {console.log(D, "D")}
-              
+            {console.log(sec, "sec")}
+            {sec}<br /><br />
+            <button>Lap</button> | {sec===0 ? <button onClick={() => { start(true) }}>Start</button> : <button onClick={() => { start(false) }}>Stop</button>}
+
         </div>
     )
 }
