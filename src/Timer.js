@@ -8,18 +8,18 @@ export const Timer = () => {
 
     const start = (val) => {
         if (val) {
+            setStop(false)
             console.log(val, "start / val = true")
             let temp = sec
             updateInterval(setInterval(() => {
                 temp = ++temp
                 updateSec(temp)
-            }, 100)
+            }, 1000)
             )
         } else {
             console.log(val, "start / val = false")
             clearInterval(interval)
-            setStop(false)
-            setStop(null)
+            setStop(true)
             console.log(interval, "interval in else")
 
 
@@ -30,7 +30,7 @@ export const Timer = () => {
         <div>
             {console.log(sec, "sec")}
             {sec}<br /><br />
-            <button>Lap</button> | {sec===0 ? <button onClick={() => { start(true) }}>Start</button> : <button onClick={() => { start(false) }}>Stop</button>}
+            <button>Lap</button> | {stop ? <button onClick={() => { start(true) }}>Start</button> : <button onClick={() => { start(false) }}>Stop</button>}
 
         </div>
     )
