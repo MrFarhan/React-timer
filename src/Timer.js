@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 export const Timer = () => {
 
     const [sec, updateSec] = useState(0)
+    const [miliSec, updateMiliSec] = useState(0)
     const [stop, setStop] = useState(true)
     const [interval, updateInterval] = useState()
     const [lap, updateLap] = useState([]);
@@ -11,10 +12,8 @@ export const Timer = () => {
         if (val) {
             setStop(false)
             console.log(val, "start / val = true")
-            let temp = sec
             updateInterval(setInterval(() => {
-                temp = ++temp
-                updateSec(temp)
+                updateSec(prev=>++prev)
             }, 1000)
             )
         } else {
@@ -33,10 +32,14 @@ export const Timer = () => {
         updateLap(temp)
         console.log(lap, "lap")
     }
-    // useEffect(() => {
+    useEffect(() => {
+        if (sec === 5) {
+            updateMiliSec(prev => ++prev)
+            updateSec(0)
+            clearInterval(sec)
+        }
 
-
-    // }, [sec])
+    }, [sec])
 
 
 
@@ -44,7 +47,7 @@ export const Timer = () => {
     return (
         <div>
             {console.log(sec, "sec")}
-            <span>TIME : {sec}<br /><br /></span>
+            <span>TIME : {miliSec} : {sec}<br /><br /></span>
 
 
             <button onClick={Lap}>Lap</button> | {stop ? <button onClick={() => { start(true) }}>Start</button> : <button onClick={() => { start(false) }}>Stop</button>}
