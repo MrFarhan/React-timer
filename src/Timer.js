@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 export const Timer = () => {
 
     const [sec, updateSec] = useState(0)
-    const [miliSec, updateMiliSec] = useState(0)
     const [stop, setStop] = useState(true)
     const [interval, updateInterval] = useState()
     const [lap, updateLap] = useState([]);
@@ -13,10 +12,11 @@ export const Timer = () => {
             setStop(false)
             console.log(val, "start / val = true")
             updateInterval(setInterval(() => {
-                updateSec(prev=>++prev)
-            }, 1000)
+                updateSec(prev => ++prev)
+            }, 10)
             )
-        } else {
+        }
+        else {
             console.log(val, "start / val = false")
             clearInterval(interval)
             setStop(true)
@@ -32,14 +32,7 @@ export const Timer = () => {
         updateLap(temp)
         console.log(lap, "lap")
     }
-    useEffect(() => {
-        if (sec === 5) {
-            updateMiliSec(prev => ++prev)
-            updateSec(0)
-            clearInterval(sec)
-        }
 
-    }, [sec])
 
 
 
@@ -47,12 +40,11 @@ export const Timer = () => {
     return (
         <div>
             {console.log(sec, "sec")}
-            <span>TIME : {miliSec} : {sec}<br /><br /></span>
-
+            <span>TIME : {String(parseInt(sec/60)).padStart(2,'0')}s : {String(sec%60).padStart(2,'0')}<br /><br /></span>
 
             <button onClick={Lap}>Lap</button> | {stop ? <button onClick={() => { start(true) }}>Start</button> : <button onClick={() => { start(false) }}>Stop</button>}
             <span><br /><br />LAP:{lap.map((item, index) => {
-                return <div key={index}>  {item}</div>
+                return <div key={index}>  {String(parseInt(item/60)).padStart(2,'0')} : {String(item%60).padStart(2,'0')}</div>
             })}</span>
 
         </div>
